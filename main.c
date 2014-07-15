@@ -2,18 +2,18 @@
 #pragma config(Motor,    port2,    rightWheels, tmotorNormal, openLoop)
 #pragma config(Motor,    port3,    middleWheel, tmotorNormal, openLoop)
 
-int rightx;
-int leftx;
-int righty;
-int lefty;
+int rightX;
+int leftX;
+int rightY;
+int leftY;
 
 task main
 {
-    rightx = vexRT[1];
-    righty = vexRT[1];
-    leftx = vexRT[4];
-    lefty = vexRT[3];
-    motor[leftWheels] = (leftx + righty)/2;
-    motor[rightWheels] = (-leftx + righty)/2;
-    motor[middleWheel] = rightx;
+    rightX = vexRT[1];
+    rightY = vexRT[1];
+    leftX = vexRT[4];
+    leftY = vexRT[3];
+    motor[leftWheels] = (leftX + rightY)/2;
+    motor[rightWheels] = (-leftX + rightY)/2;
+    motor[middleWheel] = rightX;
 }
