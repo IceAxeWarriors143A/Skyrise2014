@@ -1,37 +1,83 @@
-#pragma config(Motor,    port1,    right, tmotorNormal, openLoop, reversed)
-#pragma config(Motor,    port10,    left, tMotorNormal, openLoop)
-#pragma config(Motor,		 port2,	 middle, tmotorVex393_MC29, openLoop)
-#pragma config(Motor, port3, rightLift, tmotorVex393_MC29, openLoop)
-#pragma config(Motor, port4, leftLift, tmotorVex393_MC29, openLoop)
+// Platform config
+#pragma platform(VEX)
 
-void tankDrive(float x, float y)
+//Competition Control and Duration Settings
+#pragma competitionControl(Competition)
+#pragma autonomousDuration(10)
+#pragma userControlDuration(120)
+
+// Motor config
+#pragma config(Motor, port1,	right,		tmotorNormal,		openLoop,	reversed)
+#pragma config(Motor, port10,	left,		tMotorNormal,		openLoop			)
+#pragma config(Motor, port2,	middle,		tmotorVex393_MC29,	openLoop			)
+#pragma config(Motor, port3,	rightLift,	tmotorVex393_MC29,	openLoop			)
+#pragma config(Motor, port4,	leftLift,	tmotorVex393_MC29,	openLoop			)
+
+// One joystick tank drive control. Also called arcade drive
+void tank_drive(float x, float y)
 {
-		motor[right] = (x - y) / 2;
-		motor[left] = (x + y) / 2;
+	motor[right] = (x - y) / 2;
+	motor[left] = (x + y) / 2;
 }
 
-void driveLift(int speed)
+// Lift for the claw arm
+void drive_lift(int speed)
 {
-		motor[rightLift] = speed;
-		motor[leftLift] = -speed;
+	motor[rightLift] = speed;
+	motor[leftLift] = -speed;
 }
 
-task main()
+// Drive the lift down
+void lift_down()
+{
+	drive_lift(-127);
+}
+
+// Drive the lift up
+void lift_up()
+{
+	drive_lift(127);
+}
+
+// Stop the lift
+void lift_stop()
+{
+	drive_lift(0);
+}
+
+// All init functions and definitions go in here
+void pre_auton()
+{
+}
+
+// All functions for fully autonomous control of robot go here
+task autonomous()
+{
+	AutonomousCodePlaceholderForTesting();
+}
+
+// All functions for joystick-operated mode go here
+task usercontrol()
 {
 	while(true)
 	{
-		float xSpeed = vexRT[Ch2];
-		float ySpeed = vexRT[Ch1];
-
+		int xSpeed = vexRT[Ch2];
+		int ySpeed = vexRT[Ch1];
+		int midSpeed = vexRT[Ch4];
+		
+		bool bLiftDown = vexRT[Btn5D];
+		bool bLiftUp = vexRT[Btn5U];
+		bool bLiftStop = vexRT[Btn7L];
+		
 		tankDrive(xSpeed, ySpeed);
 
-		if(vexRT[Btn5U])
-			driveLift(127);
-		else if(vexRT[Btn5D])
-			driveLift(-127);
-		else if(vexRT[Btn7L])
-			driveLift(0);
+		if(bLiftUp)
+			liftUp();
+		else if(bLiftDown)
+			liftDown();
+		else if(bLiftStop)
+			liftStop();
 
-		motor[middle] = vexRT[Ch4];
+		motor[middle] = midSpeed;
 	}
 }
