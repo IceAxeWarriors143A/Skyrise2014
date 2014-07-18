@@ -1,3 +1,9 @@
+#pragma config(Motor,  port1,           right,         tmotorVex393, 			openLoop,		reversed)
+#pragma config(Motor,  port2,           middle,        tmotorVex393_MC29, openLoop						)
+#pragma config(Motor,  port3,           rightLift,     tmotorVex393_MC29, openLoop						)
+#pragma config(Motor,  port4,           leftLift,      tmotorVex393_MC29, openLoop						)
+#pragma config(Motor,  port10,          left,          tmotorVex393, 			openLoop						)
+
 // Platform config
 #pragma platform(VEX)
 
@@ -6,12 +12,7 @@
 #pragma autonomousDuration(10)
 #pragma userControlDuration(120)
 
-// Motor config
-#pragma config(Motor, port1,	right,		tmotorNormal,		openLoop,	reversed)
-#pragma config(Motor, port10,	left,		tMotorNormal,		openLoop			)
-#pragma config(Motor, port2,	middle,		tmotorVex393_MC29,	openLoop			)
-#pragma config(Motor, port3,	rightLift,	tmotorVex393_MC29,	openLoop			)
-#pragma config(Motor, port4,	leftLift,	tmotorVex393_MC29,	openLoop			)
+#include "Vex_Competition_Includes.c"
 
 // One joystick tank drive control. Also called arcade drive
 void tank_drive(float x, float y)
@@ -53,7 +54,7 @@ void pre_auton()
 // All functions for fully autonomous control of robot go here
 task autonomous()
 {
-	AutonomousCodePlaceholderForTesting();
+	//AutonomousCodePlaceholderForTesting();
 }
 
 // All functions for joystick-operated mode go here
@@ -64,19 +65,19 @@ task usercontrol()
 		int xSpeed = vexRT[Ch2];
 		int ySpeed = vexRT[Ch1];
 		int midSpeed = vexRT[Ch4];
-		
+
 		bool bLiftDown = vexRT[Btn5D];
 		bool bLiftUp = vexRT[Btn5U];
 		bool bLiftStop = vexRT[Btn7L];
-		
-		tankDrive(xSpeed, ySpeed);
+
+		tank_drive(xSpeed, ySpeed);
 
 		if(bLiftUp)
-			liftUp();
+			lift_up();
 		else if(bLiftDown)
-			liftDown();
+			lift_down();
 		else if(bLiftStop)
-			liftStop();
+			lift_stop();
 
 		motor[middle] = midSpeed;
 	}
