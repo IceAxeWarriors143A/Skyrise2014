@@ -12,7 +12,7 @@
 
 //Competition Control and Duration Settings
 #pragma competitionControl(Off) //Off or Competition
-#pragma autonomousDuration(10)
+#pragma autonomousDuration(20)
 #pragma userControlDuration(120)
 
 #include "Vex_Competition_Includes.c"
