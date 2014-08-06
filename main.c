@@ -5,7 +5,9 @@
 #pragma config(Motor,  port10,          left,          tmotorVex393, 			openLoop						)
 #pragma config(Motor,  port6,						claw1,					tmotorVex393_MC29, openLoop						)
 #pragma config(Motor,		port7,					claw2,					tmotorVex393_MC29,	openLoop					)
-#pragma config(Motor,		port5,					armRot,					tmotorVex393_MC29,	openLoop					)
+#pragma config(Motor,		port5,					armRot1,					tmotorVex393_MC29,	openLoop,			)
+#pragma config(Motor,		port8,					armRot2,					tmotorVex393_MC29,	openLoop,		reversed			)
+
 
 // Platform config
 #pragma platform(VEX)
@@ -72,7 +74,9 @@ void claw_stop()
 
 void arm_rotate(int speed)
 {
-	motor[armRot] = speed;
+	motor[armRot1] = speed;
+	motor[armRot2] = speed;
+
 }
 
 // All init functions and definitions go in here
