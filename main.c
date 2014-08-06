@@ -7,7 +7,7 @@
 #pragma config(Motor,		port7,					clawLift2,					tmotorVex393_MC29,	openLoop					)
 #pragma config(Motor,		port5,					armRot1,					tmotorVex393_MC29,	openLoop,			)
 #pragma config(Motor,		port8,					armRot2,					tmotorVex393_MC29,	openLoop,		reversed			)
-#pragma config(Motor,		port9,					armRot2,					tmotorVex393_MC29,	openLoop			)
+#pragma config(Motor,		port9,					claw,					tmotorVex393_MC29,	openLoop			)
 
 
 
