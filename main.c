@@ -24,15 +24,21 @@
 // One joystick tank drive control. Also called arcade drive
 void tank_drive(float x, float y)
 {
-	motor[right] = (x - y) / 2;
-	motor[left] = (x + y) / 2;
+	if(abs(x) > 5 || abs(y) > 5)
+	{
+		motor[right] = (x - y) / 2;
+		motor[left] = (x + y) / 2;
+	}
 }
 
 // Lift for the claw arm
 void drive_lift(int speed)
 {
-	motor[rightLift] = speed;
-	motor[leftLift] = -speed;
+	if(abs(speed) > 5)
+	{
+		motor[rightLift] = speed;
+		motor[leftLift] = -speed;
+	}
 }
 
 // Drive the lift down
@@ -148,16 +154,15 @@ task usercontrol()
 		else if(bClawClose)
 			claw_close();
 			
-		if(!bLiftUp || !bLiftDown)
+		if(!bLiftUp && !bLiftDown)
 			lift_stop();
 			
-		if(!bClawLiftUp || !bCLawLiftDown)
+		if(!bClawLiftUp && !bClawLiftDown)
 			claw_lift_stop();
 			
-		if(!bClawOpen || !bClawStop)
+		if(!bClawOpen && !bClawClose)
 			claw_stop();
 
 		motor[middle] = midSpeed;
 	}
 }
-
