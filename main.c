@@ -11,7 +11,7 @@
 #pragma platform(VEX)
 
 //Competition Control and Duration Settings
-#pragma competitionControl(Competition)
+#pragma competitionControl(Off) //Off or Competition
 #pragma autonomousDuration(10)
 #pragma userControlDuration(120)
 
