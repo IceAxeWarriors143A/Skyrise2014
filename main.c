@@ -7,6 +7,8 @@
 #pragma config(Motor,		port7,					clawLift2,					tmotorVex393_MC29,	openLoop					)
 #pragma config(Motor,		port5,					armRot1,					tmotorVex393_MC29,	openLoop,			)
 #pragma config(Motor,		port8,					armRot2,					tmotorVex393_MC29,	openLoop,		reversed			)
+#pragma config(Motor,		port9,					armRot2,					tmotorVex393_MC29,	openLoop			)
+
 
 
 // Platform config
@@ -72,6 +74,26 @@ void claw_lift_stop()
 	claw_lift_drive(0);
 }
 
+void claw_drive(int speed)
+{
+	motor[claw] = speed;
+}
+
+void claw_open()
+{
+	claw_drive(64);
+}
+
+void claw_close()
+{
+	claw_drive(-64);
+}
+
+void claw_stop()
+{
+	claw_drive(0);
+}
+
 void arm_rotate(int speed)
 {
 	motor[armRot1] = speed;
@@ -101,13 +123,17 @@ task usercontrol()
 
 		int armSpeed = vexRT[Ch3];
 
-		bool bLiftDown = vexRT[Btn5D];
-		bool bLiftUp = vexRT[Btn5U];
+		bool bLiftDown = vexRT[Btn7D];
+		bool bLiftUp = vexRT[Btn7U];
 		bool bLiftStop = vexRT[Btn7L];
 
 		bool bClawLiftUp = vexRT[Btn8U];
 		bool bClawLiftDown = vexRT[Btn8D];
 		bool bClawLiftStop = vexRT[Btn8L];
+		
+		bool bClawOpen = vexRT[Btn5D];
+		bool bClawClose = vexRT[Btn5U];
+		bool bClawStop = vexRT[Btn7R];
 
 		tank_drive(xSpeed, ySpeed);
 		arm_rotate(armSpeed);
@@ -124,6 +150,12 @@ task usercontrol()
 			claw_lift_down();
 		else if(bClawLiftStop)
 			claw_lift_stop();
+		else if(bClawOpen)
+			claw_open();
+		else if(bClawClose)
+			claw_close();
+		else if(bClawStop)
+			claw_stop();
 
 		motor[middle] = midSpeed;
 	}
