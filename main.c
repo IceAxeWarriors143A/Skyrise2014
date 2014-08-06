@@ -3,6 +3,9 @@
 #pragma config(Motor,  port3,           rightLift,     tmotorVex393_MC29, openLoop						)
 #pragma config(Motor,  port4,           leftLift,      tmotorVex393_MC29, openLoop						)
 #pragma config(Motor,  port10,          left,          tmotorVex393, 			openLoop						)
+#pragma config(Motor,  port6,						claw1,					tmotorVex393_MC29, openLoop						)
+#pragma config(Motor,		port7,					claw2,					tmotorVex393_MC29,	openLoop					)
+#pragma config(Motor,		port5,					armRot,					tmotorVex393_MC29,	openLoop					)
 
 // Platform config
 #pragma platform(VEX)
@@ -46,6 +49,32 @@ void lift_stop()
 	drive_lift(0);
 }
 
+void claw_drive(int speed)
+{
+	motor[claw1] = speed;
+	motor[claw2] = speed;
+}
+
+void claw_up()
+{
+	claw_drive(64);
+}
+
+void claw_down()
+{
+	claw_drive(-64);
+}
+
+void claw_stop()
+{
+	claw_drive(0);
+}
+
+void arm_rotate(int speed)
+{
+	motor[armRot] = speed;
+}
+
 // All init functions and definitions go in here
 void pre_auton()
 {
@@ -66,11 +95,18 @@ task usercontrol()
 		int ySpeed = vexRT[Ch1];
 		int midSpeed = vexRT[Ch4];
 
+		int armSpeed = vexRT[Ch3];
+
 		bool bLiftDown = vexRT[Btn5D];
 		bool bLiftUp = vexRT[Btn5U];
 		bool bLiftStop = vexRT[Btn7L];
 
+		bool bClawUp = vexRT[Btn8U];
+		bool bClawDown = vexRT[Btn8D];
+		bool bClawStop = vexRT[Btn8L];
+
 		tank_drive(xSpeed, ySpeed);
+		arm_rotate(armSpeed);
 
 		if(bLiftUp)
 			lift_up();
@@ -78,7 +114,14 @@ task usercontrol()
 			lift_down();
 		else if(bLiftStop)
 			lift_stop();
+		else if(bClawUp)
+			claw_up();
+		else if(bClawDown)
+			claw_down();
+		else if(bClawStop)
+			claw_stop();
 
 		motor[middle] = midSpeed;
 	}
 }
+
