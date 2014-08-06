@@ -125,36 +125,36 @@ task usercontrol()
 
 		bool bLiftDown = vexRT[Btn7D];
 		bool bLiftUp = vexRT[Btn7U];
-		bool bLiftStop = vexRT[Btn7L];
 
 		bool bClawLiftUp = vexRT[Btn8U];
 		bool bClawLiftDown = vexRT[Btn8D];
-		bool bClawLiftStop = vexRT[Btn8L];
-		
+
 		bool bClawOpen = vexRT[Btn5D];
 		bool bClawClose = vexRT[Btn5U];
-		bool bClawStop = vexRT[Btn7R];
 
 		tank_drive(xSpeed, ySpeed);
-		arm_rotate(armSpeed);
+		arm_rotate(-armSpeed);
 
 		if(bLiftUp)
 			lift_up();
 		else if(bLiftDown)
 			lift_down();
-		else if(bLiftStop)
-			lift_stop();
 		else if(bClawLiftUp)
 			claw_lift_up();
 		else if(bClawLiftDown)
 			claw_lift_down();
-		else if(bClawLiftStop)
-			claw_lift_stop();
 		else if(bClawOpen)
 			claw_open();
 		else if(bClawClose)
 			claw_close();
-		else if(bClawStop)
+			
+		if(!bLiftUp || !bLiftDown)
+			lift_stop();
+			
+		if(!bClawLiftUp || !bCLawLiftDown)
+			claw_lift_stop();
+			
+		if(!bClawOpen || !bClawStop)
 			claw_stop();
 
 		motor[middle] = midSpeed;
