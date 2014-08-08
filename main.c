@@ -100,11 +100,22 @@ void claw_stop()
 	claw_drive(0);
 }
 
-void arm_rotate(int speed)
+void arm_up()
 {
-	motor[armRot1] = speed;
-	motor[armRot2] = speed;
+	motor[armRot1] = 60;
+	motor[armRot2] = 60;
+}
 
+void arm_down()
+{
+	motor[armRot1] = -60;
+	motor[armRot2] = -60;	
+}
+
+void arm_stop()
+{
+	motor[armRot1] = 0;
+	motor[armRot2] = 0;	
 }
 
 // All init functions and definitions go in here
@@ -127,19 +138,19 @@ task usercontrol()
 		int ySpeed = vexRT[Ch1];
 		int midSpeed = vexRT[Ch4];
 
-		int armSpeed = vexRT[Ch3];
-
-		bool bLiftDown = vexRT[Btn7D];
-		bool bLiftUp = vexRT[Btn7U];
+		bool bLiftDown = vexRT[Btn6D];
+		bool bLiftUp = vexRT[Btn6U];
 
 		bool bClawLiftUp = vexRT[Btn8U];
 		bool bClawLiftDown = vexRT[Btn8D];
 
 		bool bClawOpen = vexRT[Btn5D];
 		bool bClawClose = vexRT[Btn5U];
+		
+		bool bArmUp = vexRT[Btn7U];
+		bool bArmDown = vexRT[Btn7D];
 
 		tank_drive(xSpeed, ySpeed);
-		arm_rotate(-armSpeed);
 
 		if(bLiftUp)
 			lift_up();
@@ -153,6 +164,10 @@ task usercontrol()
 			claw_open();
 		else if(bClawClose)
 			claw_close();
+		else if(bArmUp)
+			arm_up();
+		else if(bArmDown)
+			arm_down();
 			
 		if(!bLiftUp && !bLiftDown)
 			lift_stop();
@@ -162,6 +177,9 @@ task usercontrol()
 			
 		if(!bClawOpen && !bClawClose)
 			claw_stop();
+			
+		if(!bArmUp && !bArmDown)
+			arm_stop();
 
 		motor[middle] = midSpeed;
 	}
