@@ -101,19 +101,19 @@ void claw_stop()
 	claw_drive(0);
 }
 
-void arm_up()
+void claw_pivot_up()
 {
 	motor[rightClawPivot] = 60;
 	motor[leftClawPivot] = 60;
 }
 
-void arm_down()
+void claw_pivot_down()
 {
 	motor[rightClawPivot] = -60;
 	motor[leftClawPivot] = -60;	
 }
 
-void claw_stop()
+void claw_pivot_stop()
 {
 	motor[rightClawPivot] = 0;
 	motor[leftClawPivot] = 0;	
@@ -148,8 +148,8 @@ task usercontrol()
 		bool bClawOpen = vexRT[Btn5D];
 		bool bClawClose = vexRT[Btn5U];
 		
-		bool bArmUp = vexRT[Btn7U];
-		bool bArmDown = vexRT[Btn7D];
+		bool bClawPivotUp = vexRT[Btn7U];
+		bool bClawPivotDown = vexRT[Btn7D];
 
 		tank_drive(xSpeed, ySpeed);
 
@@ -165,10 +165,10 @@ task usercontrol()
 			claw_open();
 		else if(bClawClose)
 			claw_close();
-		else if(bArmUp)
-			arm_up();
-		else if(bArmDown)
-			arm_down();
+		else if(bClawPivotUp)
+			claw_pivot_up();
+		else if(bClawPivotDown)
+			claw_pivot_down();
 			
 		if(!bRackLiftUp && !bRackLiftDown)
 			rack_lift_stop();
@@ -179,8 +179,8 @@ task usercontrol()
 		if(!bClawOpen && !bClawClose)
 			claw_stop();
 			
-		if(!bArmUp && !bArmDown)
-			arm_stop();
+		if(!bClawPivotUp && !bClawPivotDown)
+			clawPivot_stop();
 
 		motor[middle] = midSpeed;
 	}
