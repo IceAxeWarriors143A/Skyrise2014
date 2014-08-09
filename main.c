@@ -1,9 +1,9 @@
 #pragma config(Motor,  port1,           left,          tmotorVex393_HBridge, openLoop)
 #pragma config(Motor,  port2,           claw,          tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port3,           armRot1,       tmotorVex393_MC29, openLoop, reversed)
-#pragma config(Motor,  port4,           armPivot1,     tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port5,           armRot2,       tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port6,           armPivot2,     tmotorVex393_MC29, openLoop)
+#pragma config(Motor,  port3,           rightClawPivot,       tmotorVex393_MC29, openLoop, reversed)
+#pragma config(Motor,  port4,           leftClawPivot,       tmotorVex393_MC29, openLoop)
+#pragma config(Motor,  port5,           rightArmPivot,     tmotorVex393_MC29, openLoop)
+#pragma config(Motor,  port6,           leftArmPivot,     tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port7,           rightRackLift, tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port8,           leftRackLift,  tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port9,           middle,        tmotorVex393_MC29, openLoop)
@@ -28,16 +28,18 @@ void tank_drive(float x, float y)
 		motor[right] = (x - y) / 2;
 		motor[left] = (x + y) / 2;
 	}
+	else
+	{
+		motor[right] = 0;
+		motor[left] = 0;
+	}
 }
 
 // Lift for the claw arm
 void drive_rack_lift(int speed)
 {
-	if(abs(speed) > 5)
-	{
 		motor[rightRackLift] = speed;
 		motor[leftRackLift] = -speed;
-	}
 }
 
 // Drive the lift down
@@ -60,8 +62,8 @@ void rack_lift_stop()
 
 void arm_pivot_drive(int speed)
 {
-	motor[armPivot1] = speed;
-	motor[armPivot2] = speed;
+	motor[rightArmPivot] = speed;
+	motor[leftArmPivot] = speed;
 }
 
 void arm_pivot_up()
@@ -101,20 +103,20 @@ void claw_stop()
 
 void arm_up()
 {
-	motor[armRot1] = 60;
-	motor[armRot2] = 60;
+	motor[rightClawPivot] = 60;
+	motor[leftClawPivot] = 60;
 }
 
 void arm_down()
 {
-	motor[armRot1] = -60;
-	motor[armRot2] = -60;	
+	motor[rightClawPivot] = -60;
+	motor[leftClawPivot] = -60;	
 }
 
-void arm_stop()
+void claw_stop()
 {
-	motor[armRot1] = 0;
-	motor[armRot2] = 0;	
+	motor[rightClawPivot] = 0;
+	motor[leftClawPivot] = 0;	
 }
 
 // All init functions and definitions go in here
@@ -182,3 +184,4 @@ task usercontrol()
 
 		motor[middle] = midSpeed;
 	}
+}
