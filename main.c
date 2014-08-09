@@ -23,16 +23,34 @@
 // One joystick tank drive control. Also called arcade drive
 void tank_drive(float x, float y)
 {
+    //Reset to zero
+    motor[right] = 0;
+    motor[left] = 0;
 	if(abs(x) > 5 || abs(y) > 5)
 	{
+        //Movement
 		motor[right] = (x - y) / 2;
 		motor[left] = (x + y) / 2;
 	}
-	else
-	{
-		motor[right] = 0;
-		motor[left] = 0;
-	}
+}
+
+//Two joystick h-drive control
+void h_drive(float xLeftStick, float yLeftStick, float xRightStick, float yRightStick)
+{
+    //Reset to zero
+    motor[right] = 0;
+    motor[left] = 0;
+    motor[middle] = 0;
+    if(abs(xRightStick) > 5 || abs(yRightStick) > 5 || abs(xLeftStick) > 5 || abs(yLeftStick) > 5)
+    {
+        //Directional Movement
+        motor[right] += yRightStick;
+        motor[left] += yRightStick;
+        motor[middle] += xRightStick;
+        //Turning
+        motor[right] += xLeftStick;
+		motor[left] += -xLeftStick;
+    }
 }
 
 // Lift for the claw arm
