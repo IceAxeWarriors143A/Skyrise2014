@@ -153,9 +153,10 @@ task usercontrol()
 {
 	while(true)
 	{
-		int xSpeed = vexRT[Ch2];
-		int ySpeed = vexRT[Ch1];
-		int midSpeed = vexRT[Ch4];
+		int xRightStick = vexRT[Ch2];
+		int yRightStick = vexRT[Ch1];
+		int xLeftStick = vexRT[Ch3];//Check channel number
+        int yLeftStick = vexRT[Ch4];//Check channel number
 
 		bool bRackLiftDown = vexRT[Btn6D];
 		bool bRackLiftUp = vexRT[Btn6U];
@@ -169,8 +170,9 @@ task usercontrol()
 		bool bClawPivotUp = vexRT[Btn7U];
 		bool bClawPivotDown = vexRT[Btn7D];
 
-		tank_drive(xSpeed, ySpeed);
-
+		//tank_drive(xRightStick, yRightStick);
+        h_drive(xLeftStick, yLeftStick, xRightStick, xLeftStick);
+        
 		if(bRackLiftUp)
 			rack_lift_up();
 		else if(bRackLiftDown)
@@ -200,6 +202,6 @@ task usercontrol()
 		if(!bClawPivotUp && !bClawPivotDown)
 			clawPivot_stop();
 
-		motor[middle] = midSpeed;
+		motor[middle] = xLeftStick;
 	}
 }
