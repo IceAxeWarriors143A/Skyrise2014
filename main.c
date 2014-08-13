@@ -75,9 +75,9 @@ void drive_rack_lift(int speed)
 }
 
 // Drive the lift down
-void rack_lift_down()
+void rack_lift_down(int speed)
 {
-	drive_rack_lift(-127);
+	drive_rack_lift(speed);
 }
 
 // Drive the lift up
@@ -177,6 +177,7 @@ task usercontrol()
 
 		bool bRackLiftDown = vexRT[Btn6D];
 		bool bRackLiftUp = vexRT[Btn6U];
+        bool bRackLiftDownSlow = vexRT[Btn7R];
 
 		bool bArmPivotUp = vexRT[Btn8U];
 		bool bArmPivotDown = vexRT[Btn8D];
@@ -193,7 +194,9 @@ task usercontrol()
 		if(bRackLiftUp)
 			rack_lift_up();
 		else if(bRackLiftDown)
-			rack_lift_down();
+			rack_lift_down(-127);
+        else if(bRackLiftDownSlow)
+            rack_lift_down(-60);
 		else if(bArmPivotUp)
 			arm_pivot_up();
 		else if(bArmPivotDown)
@@ -218,7 +221,5 @@ task usercontrol()
 
 		if(!bClawPivotUp && !bClawPivotDown)
 			claw_pivot_stop();
-
-		motor[middleDrive] = xLeftStick;
 	}
 }
