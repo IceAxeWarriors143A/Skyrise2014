@@ -2,7 +2,7 @@
 #pragma config(Motor,  port2,           claw,          tmotorVex393_MC29, 		openLoop)
 #pragma config(Motor,  port3,           rightClawPivot,tmotorVex393_MC29, 		openLoop, reversed)
 #pragma config(Motor,  port4,           leftClawPivot, tmotorVex393_MC29, 		openLoop)
-#pragma config(Motor,  port5,           rightArmPivot, tmotorVex393_MC29, 		openLoop)
+#pragma config(Motor,  port5,           rightArmPivot, tmotorVex393_MC29, 		openLoop, reversed)
 #pragma config(Motor,  port6,           leftArmPivot,  tmotorVex393_MC29, 		openLoop)
 #pragma config(Motor,  port7,           rightRackLift, tmotorVex393_MC29, 		openLoop)
 #pragma config(Motor,  port8,           leftRackLift,  tmotorVex393_MC29, 		openLoop)
@@ -75,9 +75,9 @@ void drive_rack_lift(int speed)
 }
 
 // Drive the lift down
-void rack_lift_down()
+void rack_lift_down(int speed)
 {
-	drive_rack_lift(-127);
+	drive_rack_lift(speed);
 }
 
 // Drive the lift up
@@ -177,6 +177,7 @@ task usercontrol()
 
 		bool bRackLiftDown = vexRT[Btn6D];
 		bool bRackLiftUp = vexRT[Btn6U];
+        bool bRackLiftDownSlow = vexRT[Btn7R];
 
 		bool bArmPivotUp = vexRT[Btn8U];
 		bool bArmPivotDown = vexRT[Btn8D];
@@ -193,19 +194,18 @@ task usercontrol()
 		if(bRackLiftUp)
 			rack_lift_up();
 		else if(bRackLiftDown)
-			rack_lift_down();
-		
-		if(bArmPivotUp)
+			rack_lift_down(-127);
+        	else if(bRackLiftDownSlow)
+        		rack_lift_down(-60);
+		else if(bArmPivotUp)
 			arm_pivot_up();
 		else if(bArmPivotDown)
 			arm_pivot_down();
-		
-		if(bClawOpen)
+		else if(bClawOpen)
 			claw_open();
 		else if(bClawClose)
 			claw_close();
-		
-		if(bClawPivotUp)
+		else if(bClawPivotUp)
 			claw_pivot_up();
 		else if(bClawPivotDown)
 			claw_pivot_down();
@@ -221,7 +221,5 @@ task usercontrol()
 
 		if(!bClawPivotUp && !bClawPivotDown)
 			claw_pivot_stop();
-
-		motor[middleDrive] = xLeftStick;
 	}
 }
