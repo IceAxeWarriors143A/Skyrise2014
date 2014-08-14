@@ -25,7 +25,10 @@
 //2 = Adira
 //3 = Brynne
 //4 = Michael
-int driver = 3;
+//5 = Garrison
+//6 = Jim (not coded)
+//7 = Amy (not coded)
+int driver = 2;
 
 bool bRackLiftDown;
 bool bRackLiftUp;
@@ -40,17 +43,17 @@ bool bClawPivotUp;
 bool bClawPivotDown;
 
 // Twp joystick tank drive control
-void tank_drive(float xLeftStick, float yLeftStick, float xRightStick, float yRightStick)
+void tank_drive(float middle, float x, float y)
 {
-	if(abs(xRightStick) > 30 && abs(yRightStick) > 10)
+	if(abs(x) > 30 && abs(y) > 10)
 	{
-		motor[rightDrive] = (yRightStick - xRightStick) / 2;
-		motor[leftDrive] = (yRightStick + xRightStick) / 2;
+		motor[rightDrive] = (y - x) / 2;
+		motor[leftDrive] = (y + x) / 2;
 	}
-	else if (abs(yRightStick) > 10)
+	else if (abs(y) > 10)
 	{
-		motor[rightDrive] = yRightStick;
-		motor[leftDrive] = yRightStick;
+		motor[rightDrive] = y;
+		motor[leftDrive] = y;
 	}
 	else
 	{
@@ -58,9 +61,9 @@ void tank_drive(float xLeftStick, float yLeftStick, float xRightStick, float yRi
 		motor[leftDrive] = 0;
 	}
 
-	if(abs(xLeftStick) > 5)
+	if(abs(middle) > 5)
 	{
-		motor[middleDrive] = xLeftStick;
+		motor[middleDrive] = middle;
 	}
 	else
 	{
@@ -228,6 +231,7 @@ task usercontrol()
 
 			bClawPivotUp = vexRT[Btn8U];
 			bClawPivotDown = vexRT[Btn8D];
+			tank_drive(xLeftStick, xRightStick, yRightStick);
 		}
 		else if(driver == 2)
 		{
@@ -242,6 +246,7 @@ task usercontrol()
 
 			bClawPivotUp = vexRT[Btn8U];
 			bClawPivotDown = vexRT[Btn8D];
+			tank_drive(yLeftStick, xRightStick, yRightStick);
 		}
 		else if(driver == 3)
 		{
@@ -256,6 +261,7 @@ task usercontrol()
 
 			bClawPivotUp = vexRT[Btn7U];
 			bClawPivotDown = vexRT[Btn7D];
+			tank_drive(xLeftStick, xRightStick, yRightStick);
 		}
 		else if(driver == 4)
 		{
@@ -270,10 +276,23 @@ task usercontrol()
 
 			bClawPivotUp = vexRT[Btn8U];
 			bClawPivotDown = vexRT[Btn8D];
+			tank_drive(xRightStick, xLeftStick, yLeftStick);
 		}
+		else if(driver == 5)
+		{
+			bRackLiftDown = vexRT[Btn7D];
+			bRackLiftUp = vexRT[Btn7U];
 
-		tank_drive(xLeftStick, yLeftStick, xRightStick, yRightStick);
-		//h_drive(xLeftStick, yLeftStick, xRightStick, yRightStick);
+			bArmPivotUp = vexRT[Btn5U];
+			bArmPivotDown = vexRT[Btn5D];
+
+			bClawOpen = vexRT[Btn8R];
+			bClawClose = vexRT[Btn8L];
+
+			bClawPivotUp = vexRT[Btn8U];
+			bClawPivotDown = vexRT[Btn8D];
+			h_drive(xLeftStick, yLeftStick, xRightStick, yRightStick);
+		}
 
 		if(bRackLiftUp)
 			rack_lift_up();
