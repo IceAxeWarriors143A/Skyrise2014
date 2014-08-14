@@ -26,9 +26,8 @@
 //3 = Brynne
 //4 = Michael
 //5 = Garrison
-//6 = Jim (not coded)
-//7 = Amy (not coded)
-int driver = 2;
+//6 = Jim
+int driver = 6;
 
 bool bRackLiftDown;
 bool bRackLiftUp;
@@ -293,6 +292,21 @@ task usercontrol()
 			bClawPivotDown = vexRT[Btn8D];
 			h_drive(xLeftStick, yLeftStick, xRightStick, yRightStick);
 		}
+		else if(driver == 6)
+		{
+			bRackLiftDown = vexRT[Btn7D];
+			bRackLiftUp = vexRT[Btn7U];
+
+			bArmPivotUp = vexRT[Btn5U];
+			bArmPivotDown = vexRT[Btn5D];
+
+			bClawOpen = vexRT[Btn8R];
+			bClawClose = vexRT[Btn8L];
+
+			bClawPivotUp = vexRT[Btn8U];
+			bClawPivotDown = vexRT[Btn8D];
+			tank_drive(xLeftStick, xRightStick, yRightStick);
+		}
 
 		if(bRackLiftUp)
 			rack_lift_up();
@@ -324,3 +338,4 @@ task usercontrol()
 			claw_pivot_stop();
 	}
 }
+
