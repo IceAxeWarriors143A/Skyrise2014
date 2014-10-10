@@ -29,6 +29,10 @@
 //6 = Jim
 int driver = 6;
 
+//1 = turn around, raise arm and rack to 50%
+//2 = raise rack 50%, strafe right, turn 100 degrees, raise rack fully, open claw
+int auto = 1;
+
 bool bRackLiftDown;
 bool bRackLiftUp;
 
@@ -201,7 +205,28 @@ void pre_auton()
 // All functions for fully autonomous control of robot go here
 task autonomous()
 {
-	//AutonomousCodePlaceholderForTesting();
+	motor[rightDrive] = 0;
+	motor[leftDrive] = 0;
+	motor[middleDrive] = 0;
+	if(auto == 1)
+	{
+		//Raise rack to 50%
+		//Drive forward x distance
+		//Turn 90 degrees clockwise
+		//Drive forward y distance
+		//Turn 90 degrees counter clockwise
+		//Raise arm z distance
+		//Drive forward x distance
+		//Open claw
+	}
+	else if(auto == 2)
+	{
+		//Raise rack 50%
+		//Strafe right
+		//Turn 100 degrees clockwise
+		//Raise rack to 100%
+		//Open claw
+	}
 }
 
 // All functions for joystick-operated mode go here
