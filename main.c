@@ -33,7 +33,7 @@
 //4 = Michael
 //5 = Garrison
 //6 = Jim
-int driver = 6;
+int driver = 3;
 
 //1 = turn around, raise arm and rack to 50%
 //2 = raise rack 50%, strafe right, turn 100 degrees, raise rack fully, open claw
@@ -253,10 +253,10 @@ task autonomous()
   nMotorEncoder[middleDrive] = 0;
   //one inch = 50 counts
   //one foot = 600 counts
-  
+
   //3.86 counts per degree
-  //347 counts per 90 degrees 
-  
+  //347 counts per 90 degrees
+
 	/*if(auto == 1)
 	{
 		//Raise rack to 250 counts
@@ -274,7 +274,7 @@ task autonomous()
 		//Turn 90 degrees clockwise
 		while(nMotorEncoder[leftDrive] < 500)
 		{
-			turn(127);	
+			turn(127);
 		}
 		drive(0, false);
 		//Drive forward y distance
@@ -286,7 +286,7 @@ task autonomous()
 		//Turn 90 degrees counter clockwise
 		while(nMotorEncoder[rightDrive] < 500)
 		{
-			turn(-127);	
+			turn(-127);
 		}
 		drive(0, false);
 		//Raise arm z distance
@@ -451,7 +451,7 @@ task usercontrol()
 
 		if(!bClawPivotUp && !bClawPivotDown)
 			claw_pivot_stop();
-	
+
 		if(sensorValue[arm_p] < arm_pent)
 		{
 			arm_pivot_up();
